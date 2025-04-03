@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+        http://www.liquibase.org/xml/ns/pro
+        http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.9.xsd">
+        
+    <!-- Creates the UUID extension before creating the tables -->
+    <changeSet id="0" author="paulo_cesar">
+	    <sql dbms="postgresql">
+	        CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+	    </sql>
+	</changeSet>
+	
+    <changeSet id="1" author="paulo_cesar">
+        <createTable tableName="users">
+            <column name="id" type="UUID" defaultValueComputed="uuid_generate_v4()">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        
+        <addUniqueConstraint tableName="users" columnNames="email" constraintName="uk_users_email"/>        
+    </changeSet>
+    
+    <changeSet id="2" author="paulo_cesar">
+        <createTable tableName="legal_cases">
+            <column name="id" type="UUID" defaultValueComputed="uuid_generate_v4()">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="number" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="UUID">
+	            <constraints nullable="false" foreignKeyName="fk_legal_cases_users" references="users(id)"/>
+	        </column>
+        </createTable>
+        
+        <addUniqueConstraint tableName="legal_cases" columnNames="number" constraintName="uk_legal_cases_number"/>
+    </changeSet>
+    
+    <changeSet id="3" author="paulo_cesar">
+	    <createTable tableName="defendants">
+	        <column name="id" type="UUID" defaultValueComputed="uuid_generate_v4()">
+	            <constraints primaryKey="true" nullable="false"/>
+	        </column>
+	        <column name="name" type="VARCHAR(255)">
+	            <constraints nullable="false"/>
+	        </column>
+	        <column name="cpf" type="VARCHAR(11)">
+	            <constraints nullable="false"/>
+	        </column>
+	        <column name="legal_case_id" type="UUID">
+	            <constraints nullable="false" foreignKeyName="fk_defendants_legal_cases" references="legal_cases(id)"/>
+	        </column>
+	    </createTable>
+    
+	    <addUniqueConstraint tableName="defendants" columnNames="cpf" constraintName="uk_defendants_cpf"/>
+	</changeSet>
+    
+</databaseChangeLog>
