@@ -9,6 +9,5 @@ import com.justicehub.api.models.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, UUID> {
-    
-    
+
 }
