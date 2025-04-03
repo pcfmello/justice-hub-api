@@ -14,7 +14,7 @@
     <!-- Creates the UUID extension before creating the tables -->
     <changeSet id="0" author="paulo_cesar">
 	    <sql dbms="postgresql">
-	        CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+	        CREATE EXTENSION IF NOT EXISTS "uuid-ossp";	        
 	    </sql>
 	</changeSet>
 	
@@ -32,6 +32,12 @@
             <column name="password" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+			    <constraints nullable="false"/>
+			</column>
+			<column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+			    <constraints nullable="false"/>
+			</column>
         </createTable>
         
         <addUniqueConstraint tableName="users" columnNames="email" constraintName="uk_users_email"/>        
@@ -45,6 +51,12 @@
             <column name="number" type="VARCHAR(50)">
                 <constraints nullable="false"/>
             </column>
+	        <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+			    <constraints nullable="false"/>
+			</column>
+			<column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+			    <constraints nullable="false"/>
+			</column>
             <column name="user_id" type="UUID">
 	            <constraints nullable="false" foreignKeyName="fk_legal_cases_users" references="users(id)"/>
 	        </column>
@@ -64,12 +76,52 @@
 	        <column name="cpf" type="VARCHAR(11)">
 	            <constraints nullable="false"/>
 	        </column>
+	        <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+			    <constraints nullable="false"/>
+			</column>
+			<column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+			    <constraints nullable="false"/>
+			</column>
 	        <column name="legal_case_id" type="UUID">
 	            <constraints nullable="false" foreignKeyName="fk_defendants_legal_cases" references="legal_cases(id)"/>
 	        </column>
 	    </createTable>
     
 	    <addUniqueConstraint tableName="defendants" columnNames="cpf" constraintName="uk_defendants_cpf"/>
+	</changeSet>
+	
+	<!-- Script to update the update_at field automatically -->
+	<changeSet id="4" author="paulo_cesar">
+	    <sql>
+	        CREATE FUNCTION trigger_set_timestamp() 
+	        RETURNS TRIGGER AS '
+		        BEGIN
+		            NEW.updated_at = NOW();
+		            RETURN NEW;
+		        END;
+	        ' LANGUAGE plpgsql;
+	    </sql>
+	
+	    <sql>
+	        CREATE TRIGGER set_timestamp_users 
+	        BEFORE UPDATE ON users 
+	        FOR EACH ROW 
+	        EXECUTE FUNCTION trigger_set_timestamp();
+	    </sql>
+	
+	    <sql>
+	        CREATE TRIGGER set_timestamp_legal_cases 
+	        BEFORE UPDATE ON legal_cases 
+	        FOR EACH ROW 
+	        EXECUTE FUNCTION trigger_set_timestamp();
+	    </sql>
+	
+	    <sql>
+	        CREATE TRIGGER set_timestamp_defendants 
+	        BEFORE UPDATE ON defendants 
+	        FOR EACH ROW 
+	        EXECUTE FUNCTION trigger_set_timestamp();
+	    </sql>
 	</changeSet>
     
 </databaseChangeLog>
