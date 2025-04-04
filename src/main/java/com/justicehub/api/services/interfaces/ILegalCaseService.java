@@ -3,11 +3,12 @@ package com.justicehub.api.services.interfaces;
 import java.util.List;
 import java.util.UUID;
 
+import com.justicehub.api.dto.LegalCaseDTO;
 import com.justicehub.api.models.Defendant;
 import com.justicehub.api.models.LegalCase;
 
 public interface ILegalCaseService {
-	List<LegalCase> saveList(List<String> numbers);
+	List<LegalCase> saveList(LegalCaseDTO legalCaseDTO);
 	List<String> findAll();
 	LegalCase findByNumber(String number);
 	void delete(UUID id);
