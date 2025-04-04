@@ -6,9 +6,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "users")
@@ -25,8 +25,6 @@ public class User extends BaseEntity {
     private String email;
 
     @Column(nullable = false, length = 255)
+    @JsonIgnore
     private String password;
-
-    @OneToMany(mappedBy = "user")
-    private List<LegalCase> legalCases;
 }
