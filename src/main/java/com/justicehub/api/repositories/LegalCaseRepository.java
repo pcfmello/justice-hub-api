@@ -11,4 +11,5 @@ import com.justicehub.api.models.LegalCase;
 @Repository
 public interface LegalCaseRepository extends JpaRepository<LegalCase, UUID> {
 	List<LegalCase> findByNumberIn(List<String> numbers);
+    List<LegalCase> findByUserId(UUID userId);
 }

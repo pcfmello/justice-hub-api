@@ -51,11 +51,9 @@ public class LegalCaseService implements ILegalCaseService {
 	
 	    return legalCaseRepository.saveAll(newCases);
 	}
-
-	@Override
-	public List<String> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+	
+	public List<LegalCase> findByUserId(UUID userId) {
+	    return legalCaseRepository.findByUserId(userId);
 	}
 
 	@Override
@@ -75,5 +73,4 @@ public class LegalCaseService implements ILegalCaseService {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }

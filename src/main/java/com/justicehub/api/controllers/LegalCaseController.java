@@ -1,10 +1,13 @@
 package com.justicehub.api.controllers;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +34,12 @@ public class LegalCaseController {
 		} catch (RuntimeException e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
+	}
+	
+	@GetMapping("/user/{userId}")
+	public ResponseEntity<List<LegalCase>> getCasesByUserId(@PathVariable UUID userId) {
+	    List<LegalCase> cases = legalCaseService.findByUserId(userId);
+	    return ResponseEntity.ok(cases);
 	}
 
 }
