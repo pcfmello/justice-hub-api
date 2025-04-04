@@ -1,7 +1,7 @@
-package com.justicehub.api.services;
+package com.justicehub.api.services.impl;
 
-import com.justicehub.api.interfaces.IDefendantService;
 import com.justicehub.api.models.Defendant;
+import com.justicehub.api.services.interfaces.IDefendantService;
 
 public class DefendantService implements IDefendantService {
 

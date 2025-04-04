@@ -1,4 +1,4 @@
-package com.justicehub.api.interfaces;
+package com.justicehub.api.services.interfaces;
 
 import java.util.List;
 import java.util.UUID;

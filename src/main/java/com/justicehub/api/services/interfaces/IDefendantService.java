@@ -1,4 +1,4 @@
-package com.justicehub.api.interfaces;
+package com.justicehub.api.services.interfaces;
 
 import com.justicehub.api.models.Defendant;
 

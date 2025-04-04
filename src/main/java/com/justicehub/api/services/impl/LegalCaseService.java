@@ -1,11 +1,11 @@
-package com.justicehub.api.services;
+package com.justicehub.api.services.impl;
 
 import java.util.List;
 import java.util.UUID;
 
-import com.justicehub.api.interfaces.ILegalCaseService;
 import com.justicehub.api.models.Defendant;
 import com.justicehub.api.models.LegalCase;
+import com.justicehub.api.services.interfaces.ILegalCaseService;
 
 public class LegalCaseService implements ILegalCaseService {
 
