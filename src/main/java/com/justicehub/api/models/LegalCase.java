@@ -27,4 +27,7 @@ public class LegalCase extends BaseEntity {
     @JoinColumn(name = "user_id", nullable = false)
     @JsonIgnore
     private User user;   
+    
+    @Column(nullable = false)
+    private boolean deleted = false;
 }

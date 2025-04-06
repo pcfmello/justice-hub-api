@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.justicehub.api.dto.LegalCaseDTO;
 import com.justicehub.api.models.Defendant;
@@ -14,6 +16,7 @@ import com.justicehub.api.models.User;
 import com.justicehub.api.repositories.LegalCaseRepository;
 import com.justicehub.api.repositories.UserRepository;
 import com.justicehub.api.services.interfaces.ILegalCaseService;
+import org.springframework.http.HttpStatus;
 
 @Service
 public class LegalCaseService implements ILegalCaseService {
@@ -33,11 +36,11 @@ public class LegalCaseService implements ILegalCaseService {
 	            .collect(Collectors.toList());
 	    
 	    if (!existingNumbers.isEmpty()) {
-	        throw new RuntimeException("Os seguintes números de processo já foram cadastrados: " + existingNumbers);
+	        throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Os seguintes números de processo já foram cadastrados: " + existingNumbers);
 	    }
 	    
 	    User user = userRepository.findById(legalCaseDTO.getUserId())
-	            .orElseThrow(() -> new RuntimeException("Usuário com ID " + legalCaseDTO.getUserId() + " não encontrado."));
+	            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário com ID " + legalCaseDTO.getUserId() + " não encontrado."));
 	
 	    List<LegalCase> newCases = legalCaseDTO.getCaseNumbers().stream()
 	            .filter(number -> !existingNumbers.contains(number))
@@ -53,19 +56,16 @@ public class LegalCaseService implements ILegalCaseService {
 	}
 	
 	public List<LegalCase> findByUserId(UUID userId) {
-	    return legalCaseRepository.findByUserId(userId);
+	    return legalCaseRepository.findByUserIdAndDeletedFalse(userId);
 	}
-
-	@Override
-	public LegalCase findByNumber(String number) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
+	
+	@Transactional
 	public void delete(UUID id) {
-		// TODO Auto-generated method stub
-		
+	    LegalCase legalCase = legalCaseRepository.findByIdAndDeletedFalse(id)
+	        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Legal case not found: " + id));
+	    
+	    legalCase.setDeleted(true);
+	    legalCaseRepository.save(legalCase);
 	}
 
 	@Override

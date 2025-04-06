@@ -10,7 +10,8 @@ import com.justicehub.api.models.LegalCase;
 public interface ILegalCaseService {
 	List<LegalCase> saveList(LegalCaseDTO legalCaseDTO);
 	List<LegalCase> findByUserId(UUID userId);
-	LegalCase findByNumber(String number);
 	void delete(UUID id);
+	
+	// LegalCase findByNumber(String number);
 	LegalCase addDefendantToLegalCase(LegalCase legalCase, Defendant defendant);
 }

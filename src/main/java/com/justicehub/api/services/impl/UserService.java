@@ -33,6 +33,4 @@ public class UserService implements IUserService {
 	    Optional<User> userOptional = userRepository.findByEmail(email);
 	    return userOptional.orElse(null);
 	}
-
-
 }
