@@ -20,14 +20,15 @@ import org.springframework.http.HttpStatus;
 
 @Service
 public class LegalCaseService implements ILegalCaseService {
-	
-	@Autowired
-    private LegalCaseRepository legalCaseRepository;
-	
-	@Autowired
-    private UserRepository userRepository;
+    private final LegalCaseRepository legalCaseRepository;
+    private final UserRepository userRepository;
+    
+	public LegalCaseService(LegalCaseRepository legalCaseRepository, UserRepository userRepository) {
+		this.legalCaseRepository = legalCaseRepository;
+		this.userRepository = userRepository;
+	}
 
-
+	@Transactional
 	public List<LegalCase> saveList(LegalCaseDTO legalCaseDTO) {
 	    
 	    List<String> existingNumbers = legalCaseRepository.findByNumberIn(legalCaseDTO.getCaseNumbers())

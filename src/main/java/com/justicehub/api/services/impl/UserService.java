@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.justicehub.api.dto.UserDTO;
 import com.justicehub.api.exceptions.UserAlreadyExistsException;
@@ -14,12 +15,15 @@ import com.justicehub.api.services.interfaces.IUserService;
 
 @Service
 public class UserService implements IUserService {
-	@Autowired
-    private ModelMapper modelMapper;
+	private final UserRepository userRepository;
+	private final ModelMapper modelMapper;
 	
-	@Autowired
-	private UserRepository userRepository;
+	public UserService(UserRepository userRepository, ModelMapper modelMapper) {
+		this.modelMapper = modelMapper;
+		this.userRepository = userRepository;
+	}
 	
+	@Transactional
 	public User save(UserDTO userDTO) {
 		if (userRepository.existsByEmail(userDTO.getEmail())) {
             throw new UserAlreadyExistsException(userDTO.getEmail());

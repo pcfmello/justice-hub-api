@@ -123,12 +123,25 @@
 	        EXECUTE FUNCTION trigger_set_timestamp();
 	    </sql>
 	</changeSet>
-	<changeSet id="add-deleted-column-to-legal-case" author="paulo_cesar">
-    <addColumn tableName="legal_cases">
-        <column name="deleted" type="BOOLEAN" defaultValueBoolean="false">
-            <constraints nullable="false"/>
-        </column>
-    </addColumn>
-</changeSet>
+	<changeSet id="5" author="paulo_cesar">
+	    <addColumn tableName="legal_cases">
+	        <column name="deleted" type="BOOLEAN" defaultValueBoolean="false">
+	            <constraints nullable="false"/>
+	        </column>
+	    </addColumn>
+	</changeSet>
+	
+	<changeSet id="6" author="paulo_cesar">
+	    <dropUniqueConstraint 
+	        tableName="defendants" 
+	        constraintName="uk_defendants_cpf"/>
+	</changeSet>
+	
+	<changeSet id="7" author="paulo_cesar">
+	    <addUniqueConstraint 
+	        tableName="defendants" 
+	        columnNames="cpf, legal_case_id" 
+	        constraintName="uk_defendants_cpf_per_case"/>
+	</changeSet>
     
 </databaseChangeLog>

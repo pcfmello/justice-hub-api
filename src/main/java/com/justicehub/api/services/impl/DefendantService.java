@@ -17,12 +17,13 @@ import com.justicehub.api.services.interfaces.IDefendantService;
 
 @Service
 public class DefendantService implements IDefendantService {
+	private final LegalCaseRepository legalCaseRepository;
+	private final DefendantRepository defendantRepository;
 	
-	@Autowired
-	private LegalCaseRepository legalCaseRepository;
-	
-	@Autowired
-	private DefendantRepository defendantRepository;
+	public DefendantService(LegalCaseRepository legalCaseRepository, DefendantRepository defendantRepository) {
+		this.legalCaseRepository = legalCaseRepository;
+		this.defendantRepository = defendantRepository;
+	}
 
 	@Transactional
 	public Defendant save(DefendantDTO dto) {
