@@ -3,7 +3,7 @@ version: '3.8'
 services:
   database:
     image: postgres:latest
-    container_name: justice-hub-container
+    container_name: justice-hub-db
     ports:
       - "5432:5432"
     environment:
