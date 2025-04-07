@@ -23,7 +23,7 @@ Justice Hub API is a RESTful service designed to streamline case management. Bui
    ```
 3. Configure database in `application.properties` file and `docker-compose.yml`.  
 
-4. Run Docker Compose to build and up database:  
+4. Run Docker Compose to build and up database:
    ```bash
    docker-compose up -d
    ```

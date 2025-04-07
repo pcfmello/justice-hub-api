@@ -36,11 +36,11 @@ public class LegalCaseService implements ILegalCaseService {
 	            .collect(Collectors.toList());
 	    
 	    if (!existingNumbers.isEmpty()) {
-	        throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Os seguintes números de processo já foram cadastrados: " + existingNumbers);
+	        throw new ResponseStatusException(HttpStatus.NOT_FOUND,"The following legal case numbers have already been registered: " + existingNumbers);
 	    }
 	    
 	    User user = userRepository.findById(legalCaseDTO.getUserId())
-	            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário com ID " + legalCaseDTO.getUserId() + " não encontrado."));
+	            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User with id " + legalCaseDTO.getUserId() + " was not found."));
 	
 	    List<LegalCase> newCases = legalCaseDTO.getCaseNumbers().stream()
 	            .filter(number -> !existingNumbers.contains(number))
@@ -66,11 +66,5 @@ public class LegalCaseService implements ILegalCaseService {
 	    
 	    legalCase.setDeleted(true);
 	    legalCaseRepository.save(legalCase);
-	}
-
-	@Override
-	public LegalCase addDefendantToLegalCase(LegalCase legalCase, Defendant defendant) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

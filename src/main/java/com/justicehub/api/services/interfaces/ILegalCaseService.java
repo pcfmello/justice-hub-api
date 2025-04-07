@@ -11,7 +11,4 @@ public interface ILegalCaseService {
 	List<LegalCase> saveList(LegalCaseDTO legalCaseDTO);
 	List<LegalCase> findByUserId(UUID userId);
 	void delete(UUID id);
-	
-	// LegalCase findByNumber(String number);
-	LegalCase addDefendantToLegalCase(LegalCase legalCase, Defendant defendant);
 }
