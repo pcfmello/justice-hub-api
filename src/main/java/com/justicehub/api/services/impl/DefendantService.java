@@ -2,7 +2,6 @@ package com.justicehub.api.services.impl;
 
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,15 +14,13 @@ import com.justicehub.api.repositories.DefendantRepository;
 import com.justicehub.api.repositories.LegalCaseRepository;
 import com.justicehub.api.services.interfaces.IDefendantService;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class DefendantService implements IDefendantService {
 	private final LegalCaseRepository legalCaseRepository;
 	private final DefendantRepository defendantRepository;
-	
-	public DefendantService(LegalCaseRepository legalCaseRepository, DefendantRepository defendantRepository) {
-		this.legalCaseRepository = legalCaseRepository;
-		this.defendantRepository = defendantRepository;
-	}
 
 	@Transactional
 	public Defendant save(DefendantDTO dto) {

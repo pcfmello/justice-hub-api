@@ -3,7 +3,6 @@ package com.justicehub.api.services.impl;
 import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,15 +12,13 @@ import com.justicehub.api.models.User;
 import com.justicehub.api.repositories.UserRepository;
 import com.justicehub.api.services.interfaces.IUserService;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class UserService implements IUserService {
 	private final UserRepository userRepository;
 	private final ModelMapper modelMapper;
-	
-	public UserService(UserRepository userRepository, ModelMapper modelMapper) {
-		this.modelMapper = modelMapper;
-		this.userRepository = userRepository;
-	}
 	
 	@Transactional
 	public User save(UserDTO userDTO) {

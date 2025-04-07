@@ -4,29 +4,26 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.justicehub.api.dto.LegalCaseDTO;
-import com.justicehub.api.models.Defendant;
 import com.justicehub.api.models.LegalCase;
 import com.justicehub.api.models.User;
 import com.justicehub.api.repositories.LegalCaseRepository;
 import com.justicehub.api.repositories.UserRepository;
 import com.justicehub.api.services.interfaces.ILegalCaseService;
+
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.HttpStatus;
 
 @Service
+@RequiredArgsConstructor
 public class LegalCaseService implements ILegalCaseService {
     private final LegalCaseRepository legalCaseRepository;
     private final UserRepository userRepository;
-    
-	public LegalCaseService(LegalCaseRepository legalCaseRepository, UserRepository userRepository) {
-		this.legalCaseRepository = legalCaseRepository;
-		this.userRepository = userRepository;
-	}
 
 	@Transactional
 	public List<LegalCase> saveList(LegalCaseDTO legalCaseDTO) {
